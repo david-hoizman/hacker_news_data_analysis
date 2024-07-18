@@ -1,4 +1,5 @@
 import requests
+import csv
 
 
 def fetch_top_stories():
@@ -26,5 +27,14 @@ def fetch_top_stories():
     return stories
 
 
+top_stories = fetch_top_stories()
+
+
+with open('top_stories.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['id', 'title', 'url', 'score', 'author', 'time', 'num_comments']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for story in top_stories:
+        writer.writerow(story)
 
     
