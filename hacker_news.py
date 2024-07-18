@@ -63,14 +63,30 @@ with open('top_stories.csv', 'w', newline='', encoding='utf-8') as csvfile:
     for story in top_stories:
         writer.writerow(story)
 
-    
+with open('top_comments.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['author', 'text', 'time', 'parent_story_id']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for comment in top_comments:
+        writer.writerow(comment)
 
 def analyze_data(top_stories):
     total_score = sum(story['score'] for story in top_stories)
     average_score = total_score / len(top_stories) if top_stories else 0
     
+    total_comments = 0
+    num_stories_with_comments = 0
+    
+    for story in top_stories:
+        if 'num_comments' in story and isinstance(story['num_comments'], int):
+            total_comments += story['num_comments']
+            num_stories_with_comments += 1
+    
+    average_comments = total_comments / num_stories_with_comments if num_stories_with_comments > 0 else 0
+    
     statistics = {
         'average_score': average_score,
+        'average_comments': average_comments
     }
     
     return statistics
