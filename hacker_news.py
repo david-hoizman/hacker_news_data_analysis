@@ -1,5 +1,6 @@
 import requests
 import csv
+import matplotlib.pyplot as plt
 
 
 def fetch_top_stories():
@@ -20,7 +21,9 @@ def fetch_top_stories():
             'score': story_data.get('score'),
             'author': story_data.get('by'),
             'time': story_data.get('time'),
-            'num_comments': story_data.get('descendants')
+            'num_comments': story_data.get('descendants'),
+            'type': story_data.get('type'),  # Adding type of the story (e.g., story, job, poll)
+            'date': story_data.get('time')  # Adding date of the story
         }
         stories.append(story_details)
     
@@ -56,13 +59,26 @@ top_stories = fetch_top_stories()
 
 top_comments = fetch_top_comments(top_stories)
 
+# Saving top stories to CSV with additional fields
 with open('top_stories.csv', 'w', newline='', encoding='utf-8') as csvfile:
-    fieldnames = ['id', 'title', 'url', 'score', 'author', 'time', 'num_comments']
+    fieldnames = ['id', 'title', 'url', 'score', 'author', 'time', 'num_comments', 'type', 'max_comments', 'date']  # Updated fieldnames
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     for story in top_stories:
-        writer.writerow(story)
+        writer.writerow({
+            'id': story['id'],
+            'title': story['title'],
+            'url': story['url'],
+            'score': story['score'],
+            'author': story['author'],
+            'time': story['time'],
+            'num_comments': story['num_comments'],
+            'type': story['type'],
+            'max_comments': 100,  # Placeholder for maximum comments, replace with actual data if available
+            'date': story['date']  # Adding date field
+        })
 
+# Saving top comments to CSV
 with open('top_comments.csv', 'w', newline='', encoding='utf-8') as csvfile:
     fieldnames = ['author', 'text', 'time', 'parent_story_id']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
