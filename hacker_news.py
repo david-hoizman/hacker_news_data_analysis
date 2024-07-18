@@ -93,4 +93,14 @@ def analyze_data(top_stories):
 
 
 
+# Analyzing the collected data
+statistics = analyze_data(top_stories)
+
+# Saving statistics to a CSV file
+with open('statistics.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['metric', 'value']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({'metric': 'average_score', 'value': statistics['average_score']})
+    writer.writerow({'metric': 'average_comments', 'value': statistics['average_comments']})
 
