@@ -38,3 +38,14 @@ with open('top_stories.csv', 'w', newline='', encoding='utf-8') as csvfile:
         writer.writerow(story)
 
     
+
+def analyze_data(top_stories):
+    total_score = sum(story['score'] for story in top_stories)
+    average_score = total_score / len(top_stories) if top_stories else 0
+    
+    statistics = {
+        'average_score': average_score,
+    }
+    
+    return statistics
+
