@@ -1,6 +1,7 @@
 import requests
 import csv
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 
 def fetch_top_stories():
@@ -43,16 +44,22 @@ def fetch_top_comments(top_stories):
         story_comments_response = requests.get(story_comments_url)
         story_comments_data = story_comments_response.json()
         
+        if story_comments_data is None:
+            continue  # Skip to the next story if there's no response data
+        
         if 'kids' in story_comments_data:  # 'kids' contains IDs of comments
             for comment_id in story_comments_data['kids']:
                 comment_url = f'https://hacker-news.firebaseio.com/v0/item/{comment_id}.json'
                 comment_response = requests.get(comment_url)
                 comment_data = comment_response.json()
                 
+                if comment_data is None:
+                    continue  # Skip to the next comment if there's no response data
+                
                 comment_details = {
-                    'author': comment_data.get('by'),
-                    'text': comment_data.get('text'),
-                    'time': comment_data.get('time'),
+                    'author': comment_data.get('by', 'Unknown'),  # Default to 'Unknown' if 'by' is missing
+                    'text': comment_data.get('text', ''),
+                    'time': comment_data.get('time', ''),
                     'parent_story_id': story_id
                 }
                 comments.append(comment_details)
@@ -122,7 +129,98 @@ plt.title('Average Score and Comments for Top Stories')
 plt.savefig('metrics_plot.png')
 plt.show()
 
-print("Data collection and analysis completed successfully.")
+# Plotting comments distribution over time
+comment_times = [datetime.fromtimestamp(int(comment['time'])).strftime('%Y-%m-%d %H:%M:%S') for comment in top_comments if 'time' in comment]
+hours = [int(time.split()[1].split(':')[0]) for time in comment_times if 'time' in comment]
+
+plt.figure(figsize=(12, 6))
+plt.hist(hours, bins=24, alpha=0.7, color='skyblue', edgecolor='black')
+plt.xlabel('Hour of the Day')
+plt.ylabel('Number of Comments')
+plt.title('Distribution of Comments by Hour of the Day')
+plt.xticks(range(24))
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.savefig('comments_by_hour.png')
+plt.show()
+
+print("Data collection, analysis, and visualization completed successfully.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
