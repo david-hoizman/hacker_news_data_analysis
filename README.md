@@ -17,6 +17,8 @@ This Python script retrieves data from the Hacker News API, analyzes the top sto
 - Matplotlib library
 - Datetime library
 - Csv library
+- Collections library
+
 
 ## Installation and Usage
 
