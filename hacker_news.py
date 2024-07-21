@@ -189,7 +189,8 @@ def create_plot(top_comments, statistics):
     plt.ylabel('Values')
     plt.title('Average Score and Comments for Top Stories')
     plt.savefig('metrics_plot.png')
-    plt.close()
+    # plt.close()
+    plt.show()
 
     # Plot for comments distribution by hour
     comment_hours = [datetime.fromtimestamp(int(comment['time'])).hour for comment in top_comments if 'time' in comment]
@@ -207,8 +208,8 @@ def create_plot(top_comments, statistics):
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     plt.savefig('comments_by_hour.png')
-    plt.close()
-
+    # plt.close()
+    plt.show()
 def create_statistics(top_stories):
     """
     Calculates statistics (average score and average comments) and saves them to a CSV file.
