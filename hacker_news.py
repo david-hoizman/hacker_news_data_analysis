@@ -134,41 +134,7 @@ def analyze_data(top_stories):
     
     return statistics
     
-# def create_plot(top_comments, statistics):
-#     """
-#     Creates a bar plot for average score and average comments.
 
-#     Args:
-#         top_comments (list): List of dictionaries representing top comments.
-#         statistics (dict): Dictionary containing calculated statistics.
-#     """    
-       
-#     labels = ['Average Score', 'Average Comments']
-#     values = [statistics['average_score'], statistics['average_comments']]
-
-#     plt.figure(figsize=(10, 5))
-
-#     plt.bar(labels, values, color=['blue', 'green'])
-#     plt.xlabel('Metrics')
-#     plt.ylabel('Values')
-#     plt.title('Average Score and Comments for Top Stories')
-
-#     plt.savefig('metrics_plot.png')
-#     plt.show()
-
-#     comment_times = [datetime.fromtimestamp(int(comment['time'])).strftime('%Y-%m-%d %H:%M:%S') for comment in top_comments if 'time' in comment]
-#     hours = [int(time.split()[1].split(':')[0]) for time in comment_times]
-
-#     plt.figure(figsize=(12, 6))
-#     plt.hist(hours, bins=24, alpha=0.7, color='skyblue', edgecolor='black')
-#     plt.xlabel('Hour of the Day')
-#     plt.ylabel('Number of Comments')
-#     plt.title('Distribution of Comments by Hour of the Day')
-#     plt.xticks(range(24))
-#     plt.grid(axis='y', linestyle='--', alpha=0.7)
-#     plt.tight_layout()
-#     plt.savefig('comments_by_hour.png')
-#     plt.show()
 
 def create_plot(top_comments, statistics):
     """
@@ -234,9 +200,9 @@ def create_statistics(top_stories):
 
     return statistics
 
-if __name__ == "__main__":
     
     # Fetch data
+def main():  
     try: 
         top_stories = fetch_top_stories()
         top_comments = fetch_top_comments(top_stories)
@@ -256,3 +222,8 @@ if __name__ == "__main__":
     create_plot(top_comments, statistics)
     
     print("Data collection, analysis, and visualization completed successfully.")
+
+
+if __name__ == "__main__":
+
+    main()
